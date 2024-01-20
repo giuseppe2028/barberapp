@@ -1,14 +1,31 @@
 import 'package:flutter/material.dart';
 
-class ButtonStyle extends StatelessWidget {
+class PersonalButton extends StatelessWidget {
   String text;
   Color backgroundColor;
-  ButtonStyle({required this.text, required this.backgroundColor});
+  double? width, height;
+  PersonalButton(
+      {required this.text,
+      required this.backgroundColor,
+      this.width,
+      this.height});
+
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {},
-      child: Text(text, style: TextStyle(color: Colors.white)),
+    return SizedBox(
+      width: width,
+      height: height,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: backgroundColor,
+          padding: EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        onPressed: () {},
+        child: Text(text, style: TextStyle(color: Colors.white, fontSize: 13)),
+      ),
     );
   }
 }

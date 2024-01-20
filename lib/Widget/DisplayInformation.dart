@@ -7,7 +7,7 @@ class DisplayInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
     );
   }
 }
