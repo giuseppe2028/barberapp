@@ -1,6 +1,8 @@
 import 'package:barberapp/Widget/DisplayInformation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../Provider/data_provider.dart';
 import '../Widget/ButtonStyle.dart';
 import '../Widget/TextHeader.dart';
 
@@ -49,21 +51,27 @@ class _HeaderProfile extends StatelessWidget {
   }
 }
 
-class _CardWidget extends StatelessWidget {
+class _CardWidget extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final _data = ref.watch(lastDataReservationProvider);
     return Card(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Container(
-        padding: EdgeInsets.only(left: 17, top: 10, right: 10),
-        child: Column(
-          children: [cardHeader(), cardButton()],
-        ),
-      ),
+          padding: EdgeInsets.only(left: 17, top: 10, right: 10),
+          child: _data.when(
+              data: (_data) {
+                return Column(
+                  children: [cardHeader(_data.reservationTime), cardButton()],
+                );
+              },
+              error: (err, s) => Text(err.toString()),
+              loading: () => CircularProgressIndicator())),
     );
   }
 
-  Widget cardHeader() {
+//TODO da modificare
+  Widget cardHeader(String testo) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
