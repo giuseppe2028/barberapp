@@ -62,7 +62,12 @@ class _CardWidget extends ConsumerWidget {
           child: _data.when(
               data: (_data) {
                 return Column(
-                  children: [cardHeader(_data.reservationTime), cardButton()],
+                  children: [
+                    cardHeader(
+                        "${_data.reservationDate.day} -${_data.reservationDate.month}-${_data.reservationDate.year}",
+                        _data.reservationTime),
+                    cardButton()
+                  ],
                 );
               },
               error: (err, s) => Text(err.toString()),
@@ -71,14 +76,14 @@ class _CardWidget extends ConsumerWidget {
   }
 
 //TODO da modificare
-  Widget cardHeader(String testo) {
+  Widget cardHeader(String reservationDay, String reservationHour) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Column(
           children: [
-            DisplayInformation(text: "Giorno: 08-01-2024"),
-            DisplayInformation(text: "Ora: 19:30")
+            DisplayInformation(text: "Giorno: $reservationDay"),
+            DisplayInformation(text: "Ora: $reservationHour")
           ],
         ),
         DisplayInformation(text: "Tipo Servizio: Taglio")
