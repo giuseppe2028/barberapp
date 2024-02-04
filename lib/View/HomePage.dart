@@ -14,7 +14,11 @@ class HomePage extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.only(left: 17, top: 20, right: 17),
           child: Column(
-            children: [_HeaderProfile(), _CardWidget(), listaPrenotazioni()],
+            children: [
+              _HeaderProfile(),
+              DisplayCardWidget(),
+              listaPrenotazioni()
+            ],
           ),
         ),
       ),
@@ -26,6 +30,23 @@ class HomePage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [TextHeader(testo: "Le tue vecchie prenotazioni"), Container()],
     );
+  }
+}
+
+class DisplayCardWidget extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _data = ref.watch(deleteDataReservationProvider);
+    if (_data == false) {
+      //dati presenti
+      return _CardWidget();
+    } else {
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: 50),
+        child: Text("Nessuna Prenotazione Imminente",
+            style: TextStyle(fontSize: 17)),
+      );
+    }
   }
 }
 
@@ -67,7 +88,7 @@ class _CardWidget extends ConsumerWidget {
                         "${_data.reservationDate.day} -${_data.reservationDate.month}-${_data.reservationDate.year}",
                         _data.reservationTime,
                         _data.reservationType),
-                    cardButton()
+                    CardButton()
                   ],
                 );
               },
@@ -92,8 +113,11 @@ class _CardWidget extends ConsumerWidget {
       ],
     );
   }
+}
 
-  Widget cardButton() {
+class CardButton extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20),
       child: Row(
@@ -105,6 +129,7 @@ class _CardWidget extends ConsumerWidget {
               text: 'Modifica Appuntamento',
               backgroundColor: Color.fromARGB(255, 163, 155, 255),
               height: 35,
+              onPressed: () {},
             ),
           ),
           PersonalButton(
@@ -112,6 +137,9 @@ class _CardWidget extends ConsumerWidget {
             backgroundColor: Colors.red,
             width: 65,
             height: 35,
+            onPressed: () {
+              ref.read(deleteDataReservationProvider.notifier).state = true;
+            },
           ),
         ],
       ),

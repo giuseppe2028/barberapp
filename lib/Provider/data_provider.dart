@@ -6,3 +6,5 @@ import '../ViewModel/Home_Page_ViewModel.dart';
 final lastDataReservationProvider = FutureProvider<Reservation>((ref) async {
   return ref.watch(lastReservationProvider).getNextReservation();
 });
+
+final deleteDataReservationProvider = StateProvider<bool>((ref) => false);

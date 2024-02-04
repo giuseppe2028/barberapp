@@ -4,11 +4,13 @@ class PersonalButton extends StatelessWidget {
   String text;
   Color backgroundColor;
   double? width, height;
+  VoidCallback? onPressed;
   PersonalButton(
       {required this.text,
       required this.backgroundColor,
       this.width,
-      this.height});
+      this.height,
+      required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class PersonalButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
         ),
-        onPressed: () {},
+        onPressed: onPressed,
         child: Text(text, style: TextStyle(color: Colors.white, fontSize: 13)),
       ),
     );

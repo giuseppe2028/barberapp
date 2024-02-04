@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:barberapp/helpers/Confing.dart';
 import 'package:http/http.dart' as https;
 import 'package:riverpod/riverpod.dart';
 
@@ -7,16 +8,17 @@ import '../Model/Reservation.dart';
 
 final lastReservationProvider =
     Provider<HomePageViewModel>((ref) => HomePageViewModel());
+final deleteReservationProvider =
+    Provider((ref) => HomePageViewModel().deleteReservation());
 
 class HomePageViewModel {
   static var client = https.Client();
 //TODO sistemare il lancio delle ecceccezioni
   Future<Reservation> getNextReservation() async {
-    String urlBase = "barberappserver-production.up.railway.app";
-    String endPoint = "/api/reservation/11";
     Map<String, String> requestHeader = {'Content-Type': 'application/json'};
-    var url = Uri.https(urlBase, endPoint);
-    var response = await client.get(url, headers: requestHeader);
+    //var url = Uri.https(Config.baseURL, Config.pathWithID);
+    var response =
+        await client.get(Uri.parse(Config.complete), headers: requestHeader);
     if (response.statusCode == 200) {
       final List result = jsonDecode(response.body);
 
@@ -28,6 +30,18 @@ class HomePageViewModel {
       }
     } else {
       throw Exception('Errore durante la richiesta: ${response.statusCode}');
+    }
+  }
+
+  Future<bool> deleteReservation() async {
+    //var url = Uri.https(Config.baseURL, Config.pathWithID);
+    Map<String, String> requestHeader = {'Content-Type': 'application/json'};
+    var response =
+        await client.delete(Uri.parse(Config.complete), headers: requestHeader);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
     }
   }
 }
