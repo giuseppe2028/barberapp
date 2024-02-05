@@ -44,4 +44,19 @@ class HomePageViewModel {
       return false;
     }
   }
+
+  Future<List<Reservation>> getPastReservation() async {
+    Map<String, String> requestHeader = {'Content-Type': 'application/json'};
+    var response = await client.get(
+        Uri.parse(Config.pathPastReservationComplete),
+        headers: requestHeader);
+    if (response.statusCode == 200) {
+      List<Reservation> result = allReservationFromJson(response.body);
+      print("La dimensione è: ${result.length}");
+      return result;
+    } else {
+      //TODO modifica questo obbrobrio
+      throw ("Errore");
+    }
+  }
 }

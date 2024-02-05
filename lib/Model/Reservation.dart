@@ -2,6 +2,11 @@
 //
 //     final allReservation = allReservationFromJson(jsonString);
 
+import 'dart:convert';
+
+List<Reservation> allReservationFromJson(String str) => List<Reservation>.from(
+    json.decode(str).map((x) => Reservation.fromJson(x)));
+
 class Reservation {
   int phoneNumber;
   DateTime reservationDate;

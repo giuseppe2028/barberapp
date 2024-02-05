@@ -17,18 +17,43 @@ class HomePage extends StatelessWidget {
             children: [
               _HeaderProfile(),
               DisplayCardWidget(),
-              listaPrenotazioni()
+              ListaPrenotazioni()
             ],
           ),
         ),
       ),
     );
   }
+}
 
-  Widget listaPrenotazioni() {
+class ListaPrenotazioni extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    var _data = ref.watch(listDataReservationProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [TextHeader(testo: "Le tue vecchie prenotazioni"), Container()],
+      children: [
+        TextHeader(testo: "Le tue vecchie prenotazioni"),
+        Container(
+            height: 300,
+            child: _data.when(
+                data: (data) => ListView.builder(
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text("Giorno: ${data[index].reservationDate}"),
+                            Text("Ora: ${data[index].reservationTime}"),
+                            Text(
+                                "Tipo Servizio: ${data[index].reservationType}")
+                          ],
+                        );
+                      },
+                    ),
+                error: (error, s) => Text("$error"),
+                loading: () => CircularProgressIndicator()))
+      ],
     );
   }
 }

@@ -8,3 +8,7 @@ final lastDataReservationProvider = FutureProvider<Reservation>((ref) async {
 });
 
 final deleteDataReservationProvider = StateProvider<bool>((ref) => false);
+final listDataReservationProvider =
+    FutureProvider<List<Reservation>>((ref) async {
+  return ref.watch(lastReservationProvider).getPastReservation();
+});
