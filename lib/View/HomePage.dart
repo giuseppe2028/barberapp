@@ -43,7 +43,8 @@ class ListaPrenotazioni extends ConsumerWidget {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Text("Giorno: ${data[index].reservationDate}"),
+                            Text(
+                                "Giorno: ${data[index].reservationDate.day}-${data[index].reservationDate.month}-${data[index].reservationDate.year}"),
                             Text("Ora: ${data[index].reservationTime}"),
                             Text(
                                 "Tipo Servizio: ${data[index].reservationType}")
@@ -51,7 +52,7 @@ class ListaPrenotazioni extends ConsumerWidget {
                         );
                       },
                     ),
-                error: (error, s) => Text("$error"),
+                error: (err, s) => Text(err.toString()),
                 loading: () => CircularProgressIndicator()))
       ],
     );

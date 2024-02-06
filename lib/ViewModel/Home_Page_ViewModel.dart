@@ -21,7 +21,7 @@ class HomePageViewModel {
         await client.get(Uri.parse(Config.complete), headers: requestHeader);
     if (response.statusCode == 200) {
       final List result = jsonDecode(response.body);
-
+      print("lista: ${result.elementAt(0)}");
       if (result.isNotEmpty) {
         // Restituisci il primo elemento della lista
         return Reservation.fromJson(result.first);
@@ -50,10 +50,16 @@ class HomePageViewModel {
     var response = await client.get(
         Uri.parse(Config.pathPastReservationComplete),
         headers: requestHeader);
+
     if (response.statusCode == 200) {
+      print(response.body);
       List<Reservation> result = allReservationFromJson(response.body);
-      print("La dimensione è: ${result.length}");
-      return result;
+      print("la dimensione è: ${result.length}");
+      if (result.isNotEmpty) {
+        return result;
+      } else {
+        throw Exception('Nessuna prenotazione trovata');
+      }
     } else {
       //TODO modifica questo obbrobrio
       throw ("Errore");
