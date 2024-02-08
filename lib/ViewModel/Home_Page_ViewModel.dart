@@ -60,6 +60,7 @@ class HomePageViewModel extends ChangeNotifier {
       List<Reservation> result = allReservationFromJson(response.body);
       print("la dimensione è: ${result.length}");
       if (result.isNotEmpty) {
+        print("provaaa" + result.elementAt(0).reservationDate.toString());
         return result;
       } else {
         throw Exception('Nessuna prenotazione trovata');

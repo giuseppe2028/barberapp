@@ -60,7 +60,8 @@ class ListaPrenotazioni extends ConsumerWidget {
                           children: [
                             Text(
                                 "Giorno: ${data[index].reservationDate.day}-${data[index].reservationDate.month}-${data[index].reservationDate.year}"),
-                            Text("Ora: ${data[index].reservationTime}"),
+                            Text(
+                                "Ora: ${data[index].reservationDate.hour.toString().padLeft(2, '0')}:${data[index].reservationDate.minute.toString().padLeft(2, '0')}"),
                             Text(
                                 "Tipo Servizio: ${data[index].reservationType}")
                           ],
@@ -141,7 +142,9 @@ class _CardWidget extends ConsumerWidget {
           children: [
             cardHeader(
                 "${_data?.reservationDate.day} -${_data?.reservationDate.month}-${_data?.reservationDate.year}",
-                _data!.reservationTime,
+                _data!.reservationDate.hour.toString().padLeft(2, '0') +
+                    ":" +
+                    _data!.reservationDate.minute.toString().padLeft(2, '0'),
                 _data!.reservationType),
             CardButton(_data!.idUtente, _data!.reservationDate)
           ],
