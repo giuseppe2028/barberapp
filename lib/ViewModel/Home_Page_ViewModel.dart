@@ -7,7 +7,7 @@ import 'package:riverpod/riverpod.dart';
 
 import '../Model/Reservation.dart';
 
-final lastReservationProvider =
+final ReservationProvider =
     Provider<HomePageViewModel>((ref) => HomePageViewModel());
 
 class HomePageViewModel extends ChangeNotifier {
@@ -18,7 +18,8 @@ class HomePageViewModel extends ChangeNotifier {
     print("test1");
     Map<String, String> requestHeader = {'Content-Type': 'application/json'};
     //var url = Uri.https(Config.baseURL, Config.pathWithID);
-    var response = await client.get(Uri.parse("${Config.complete}11"),
+    var response = await client.get(
+        Uri.parse("${Config.pathNextReservation}11"),
         headers: requestHeader);
     if (response.statusCode == 200) {
       final List result = jsonDecode(response.body);
@@ -35,9 +36,10 @@ class HomePageViewModel extends ChangeNotifier {
     Map<String, String> requestHeader = {'Content-Type': 'application/json'};
     var response = await client.delete(
         Uri.parse(
-            '${Config.complete}$idUtente/${data.year}-${data.month.toString().padLeft(2, '0')}-${data.day.toString().padLeft(2, '0')}'),
+            '${Config.pathNextReservation}$idUtente/${data.year}-${data.month.toString().padLeft(2, '0')}-${data.day.toString().padLeft(2, '0')}'),
         headers: requestHeader);
-    print("${Config.complete}$idUtente/${data.year}-${data.month}-${data.day}");
+    print(
+        "${Config.pathNextReservation}$idUtente/${data.year}-${data.month}-${data.day}");
     if (response.statusCode == 200) {
       deleteNextReservation = true;
       notifyListeners();
@@ -50,8 +52,7 @@ class HomePageViewModel extends ChangeNotifier {
 
   Future<List<Reservation>> getPastReservation() async {
     Map<String, String> requestHeader = {'Content-Type': 'application/json'};
-    var response = await client.get(
-        Uri.parse(Config.pathPastReservationComplete),
+    var response = await client.get(Uri.parse(Config.pathPastReservation),
         headers: requestHeader);
 
     if (response.statusCode == 200) {

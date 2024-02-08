@@ -8,16 +8,17 @@ import '../Widget/ButtonStyle.dart';
 import '../Widget/TextHeader.dart';
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.only(left: 17, top: 20, right: 17),
+          padding: const EdgeInsets.only(left: 17, top: 20, right: 17),
           child: Column(
             children: [
               _HeaderProfile(),
-              DisplayCardWidget(),
+              const DisplayCardWidget(),
               ListaPrenotazioni()
             ],
           ),
@@ -30,14 +31,14 @@ class HomePage extends StatelessWidget {
 class ListaPrenotazioni extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var _data = ref.watch(listDataReservationProvider);
+    var data = ref.watch(pastReservationProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextHeader(testo: "Le tue vecchie prenotazioni"),
         Container(
             height: 300,
-            child: _data.when(
+            child: data.when(
                 data: (data) => ListView.builder(
                       itemCount: data.length,
                       itemBuilder: (context, index) {
@@ -61,16 +62,23 @@ class ListaPrenotazioni extends ConsumerWidget {
 }
 
 class DisplayCardWidget extends ConsumerWidget {
+  const DisplayCardWidget({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _condition =
+    final _deletedElement =
         ref.watch(deleteReservationProvider).deleteNextReservation;
-    final _data = ref.watch(lastDataReservationProvider);
-    return _data.when(
-        data: (data) {
-          if (_condition == false && data != null) {
+    final _nextReservation = ref.watch(nextReservationProvider);
+    return loadData(_nextReservation, _deletedElement);
+  }
+
+  Widget loadData(
+      AsyncValue<Reservation?> nextReservation, bool deletedElement) {
+    return nextReservation.when(
+        data: (nextReservation) {
+          if (deletedElement == false && nextReservation != null) {
             //dati presenti
-            return _CardWidget(data);
+            return _CardWidget(nextReservation);
           } else {
             return const Padding(
               padding: EdgeInsets.symmetric(vertical: 50),
@@ -80,7 +88,7 @@ class DisplayCardWidget extends ConsumerWidget {
           }
         },
         error: (error, s) => Text("$error"),
-        loading: () => CircularProgressIndicator());
+        loading: () => const CircularProgressIndicator());
   }
 }
 
@@ -92,7 +100,7 @@ class _HeaderProfile extends StatelessWidget {
       children: [
         CircleAvatar(),
         Container(
-          padding: EdgeInsets.only(left: 6),
+          padding: const EdgeInsets.only(left: 6),
           child: Column(
             children: [
               TextHeader(testo: "Benvenuto,"),
@@ -106,15 +114,16 @@ class _HeaderProfile extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class _CardWidget extends ConsumerWidget {
-  Reservation? _data;
-  _CardWidget(this._data);
+  final Reservation? _data;
+  const _CardWidget(this._data);
   @override
   Widget build(BuildContext context, ref) {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       child: Container(
-        padding: EdgeInsets.only(left: 17, top: 10, right: 10),
+        padding: const EdgeInsets.only(left: 17, top: 10, right: 10),
         child: Column(
           children: [
             cardHeader(
@@ -149,19 +158,19 @@ class _CardWidget extends ConsumerWidget {
 class CardButton extends ConsumerWidget {
   int idUtente;
   DateTime reservationDate;
-  CardButton(this.idUtente, this.reservationDate);
+  CardButton(this.idUtente, this.reservationDate, {super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 20),
+      margin: const EdgeInsets.symmetric(vertical: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Container(
-            margin: EdgeInsets.only(right: 10),
+            margin: const EdgeInsets.only(right: 10),
             child: PersonalButton(
               text: 'Modifica Appuntamento',
-              backgroundColor: Color.fromARGB(255, 163, 155, 255),
+              backgroundColor: const Color.fromARGB(255, 163, 155, 255),
               height: 35,
               onPressed: () {},
             ),
