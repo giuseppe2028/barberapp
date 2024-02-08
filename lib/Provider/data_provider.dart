@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../ViewModel/Home_Page_ViewModel.dart';
 
-final lastDataReservationProvider = FutureProvider<Reservation>((ref) async {
+final lastDataReservationProvider = FutureProvider<Reservation?>((ref) async {
   return ref.watch(lastReservationProvider).getNextReservation();
 });
-
-final deleteDataReservationProvider = StateProvider<bool>((ref) => false);
+final deleteReservationProvider =
+    ChangeNotifierProvider<HomePageViewModel>((ref) {
+  return HomePageViewModel();
+});
 final listDataReservationProvider =
     FutureProvider<List<Reservation>>((ref) async {
   return ref.watch(lastReservationProvider).getPastReservation();

@@ -2,6 +2,7 @@ import 'package:barberapp/Widget/DisplayInformation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../Model/Reservation.dart';
 import '../Provider/data_provider.dart';
 import '../Widget/ButtonStyle.dart';
 import '../Widget/TextHeader.dart';
@@ -62,17 +63,24 @@ class ListaPrenotazioni extends ConsumerWidget {
 class DisplayCardWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _data = ref.watch(deleteDataReservationProvider);
-    if (_data == false) {
-      //dati presenti
-      return _CardWidget();
-    } else {
-      return Padding(
-        padding: EdgeInsets.symmetric(vertical: 50),
-        child: Text("Nessuna Prenotazione Imminente",
-            style: TextStyle(fontSize: 17)),
-      );
-    }
+    final _condition =
+        ref.watch(deleteReservationProvider).deleteNextReservation;
+    final _data = ref.watch(lastDataReservationProvider);
+    return _data.when(
+        data: (data) {
+          if (_condition == false && data != null) {
+            //dati presenti
+            return _CardWidget(data);
+          } else {
+            return const Padding(
+              padding: EdgeInsets.symmetric(vertical: 50),
+              child: Text("Nessuna Prenotazione Imminente",
+                  style: TextStyle(fontSize: 17)),
+            );
+          }
+        },
+        error: (error, s) => Text("$error"),
+        loading: () => CircularProgressIndicator());
   }
 }
 
@@ -99,27 +107,24 @@ class _HeaderProfile extends StatelessWidget {
 }
 
 class _CardWidget extends ConsumerWidget {
+  Reservation? _data;
+  _CardWidget(this._data);
   @override
   Widget build(BuildContext context, ref) {
-    final _data = ref.watch(lastDataReservationProvider);
     return Card(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Container(
-          padding: EdgeInsets.only(left: 17, top: 10, right: 10),
-          child: _data.when(
-              data: (_data) {
-                return Column(
-                  children: [
-                    cardHeader(
-                        "${_data.reservationDate.day} -${_data.reservationDate.month}-${_data.reservationDate.year}",
-                        _data.reservationTime,
-                        _data.reservationType),
-                    CardButton()
-                  ],
-                );
-              },
-              error: (err, s) => Text(err.toString()),
-              loading: () => CircularProgressIndicator())),
+        padding: EdgeInsets.only(left: 17, top: 10, right: 10),
+        child: Column(
+          children: [
+            cardHeader(
+                "${_data?.reservationDate.day} -${_data?.reservationDate.month}-${_data?.reservationDate.year}",
+                _data!.reservationTime,
+                _data!.reservationType),
+            CardButton(_data!.idUtente, _data!.reservationDate)
+          ],
+        ),
+      ),
     );
   }
 
@@ -142,6 +147,9 @@ class _CardWidget extends ConsumerWidget {
 }
 
 class CardButton extends ConsumerWidget {
+  int idUtente;
+  DateTime reservationDate;
+  CardButton(this.idUtente, this.reservationDate);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
@@ -164,7 +172,10 @@ class CardButton extends ConsumerWidget {
             width: 65,
             height: 35,
             onPressed: () {
-              ref.read(deleteDataReservationProvider.notifier).state = true;
+              // ref.read(deleteDataReservationProvider.notifier).state = true;
+              ref
+                  .read(deleteReservationProvider)
+                  .deleteReservation(idUtente, reservationDate);
             },
           ),
         ],
