@@ -24,7 +24,20 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
+      bottomNavigationBar: NavBar(),
     );
+  }
+}
+
+class NavBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(items: const [
+      BottomNavigationBarItem(icon: Icon(Icons.photo), label: "foto"),
+      BottomNavigationBarItem(
+          icon: Icon(Icons.add), label: "Aggiungi appuntamento"),
+      BottomNavigationBarItem(icon: Icon(Icons.mail), label: "mail"),
+    ]);
   }
 }
 
@@ -172,7 +185,10 @@ class CardButton extends ConsumerWidget {
               text: 'Modifica Appuntamento',
               backgroundColor: const Color.fromARGB(255, 163, 155, 255),
               height: 35,
-              onPressed: () {},
+              onPressed: () => showDialog(
+                context: context,
+                builder: (BuildContext context) => DialogWidget(),
+              ),
             ),
           ),
           PersonalButton(
@@ -189,6 +205,25 @@ class CardButton extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class DialogWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ElevatedButton(
+            onPressed: () {
+              showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(DateTime.now().year),
+                  lastDate: DateTime(DateTime.now().year + 1));
+            },
+            child: Text("Modifica data"))
+      ],
     );
   }
 }
