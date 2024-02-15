@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class TimePickerCustom extends StatelessWidget {
   DateTime? dataToReturn;
   DateTime? date;
+  VoidCallback? onPressed;
   final officeHours = {
     'Mattina': [
       '09:00',
@@ -26,7 +27,7 @@ class TimePickerCustom extends StatelessWidget {
       '19:00',
     ]
   };
-  TimePickerCustom({required this.date});
+  TimePickerCustom({required this.date, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class TimePickerCustom extends StatelessWidget {
         dividerThickness: 0,
         horizontalMargin: 5,
         columnSpacing: 20,
-        columns: [
+        columns: const [
           DataColumn(
             label: Text('Mattina'),
           ),
@@ -71,6 +72,7 @@ class TimePickerCustom extends StatelessWidget {
                 DateTime data =
                     DateTime(date!.year, date!.month, date!.day, hour, minute);
                 dataToReturn = data;
+                onPressed!();
               })),
           DataCell(InkWell(
               child: Text(afternoonTime),
@@ -80,6 +82,7 @@ class TimePickerCustom extends StatelessWidget {
                 DateTime data =
                     DateTime(date!.year, date!.month, date!.day, hour, minute);
                 dataToReturn = data;
+                onPressed!();
               })),
           DataCell(InkWell(
               child: Text(eveningTime),
@@ -89,6 +92,7 @@ class TimePickerCustom extends StatelessWidget {
                 DateTime data =
                     DateTime(date!.year, date!.month, date!.day, hour, minute);
                 dataToReturn = data;
+                onPressed!();
               }))
         ]),
       );

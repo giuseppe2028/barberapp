@@ -1,4 +1,3 @@
-import 'package:barberapp/Widget/CustomDatePicker.dart';
 import 'package:barberapp/Widget/DisplayInformation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../Model/Reservation.dart';
 import '../Provider/data_provider.dart';
 import '../Widget/ButtonStyle.dart';
+import '../Widget/DialogWidget.dart';
 import '../Widget/TextHeader.dart';
 
 class HomePage extends StatelessWidget {
@@ -208,32 +208,6 @@ class CardButton extends ConsumerWidget {
             },
           ),
         ],
-      ),
-    );
-  }
-}
-
-class DialogWidget extends ConsumerWidget {
-  late DateTime finalData;
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    DateTime? dateTime;
-    return Dialog(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CalendarDatePicker(
-              initialDate: DateTime.now(),
-              firstDate: DateTime(DateTime.now().year - 100),
-              lastDate: DateTime(DateTime.now().year + 100),
-              onDateChanged: (DateTime value) {
-                finalData = value;
-              },
-            ),
-            TimePickerCustom(date: DateTime.now())
-          ],
-        ),
       ),
     );
   }

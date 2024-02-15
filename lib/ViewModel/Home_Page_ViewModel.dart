@@ -70,4 +70,6 @@ class HomePageViewModel extends ChangeNotifier {
       throw ("Errore");
     }
   }
+
+  void updateReservation() async {}
 }
