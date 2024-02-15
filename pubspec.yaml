@@ -38,6 +38,8 @@ dependencies:
   flutter_riverpod: ^2.4.10
   riverpod_annotation: ^2.3.4
   http: ^1.1.0
+  time_picker_widget: ^1.0.0+10
+  omni_datetime_picker: ^1.0.9
 
 dev_dependencies:
   flutter_test:
