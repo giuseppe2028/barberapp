@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TimePickerCustom extends StatelessWidget {
+  DateTime? dataToReturn;
   DateTime? date;
   final officeHours = {
     'Mattina': [
@@ -62,9 +63,33 @@ class TimePickerCustom extends StatelessWidget {
 
       rows.add(
         DataRow(cells: [
-          DataCell(Text(morningTime)),
-          DataCell(Text(afternoonTime)),
-          DataCell(Text(eveningTime)),
+          DataCell(InkWell(
+              child: Text(morningTime),
+              onTap: () {
+                int hour = int.parse(morningTime.substring(0, 2));
+                int minute = int.parse(morningTime.substring(3, 5));
+                DateTime data =
+                    DateTime(date!.year, date!.month, date!.day, hour, minute);
+                dataToReturn = data;
+              })),
+          DataCell(InkWell(
+              child: Text(afternoonTime),
+              onTap: () {
+                int hour = int.parse(afternoonTime.substring(0, 2));
+                int minute = int.parse(afternoonTime.substring(3, 5));
+                DateTime data =
+                    DateTime(date!.year, date!.month, date!.day, hour, minute);
+                dataToReturn = data;
+              })),
+          DataCell(InkWell(
+              child: Text(eveningTime),
+              onTap: () {
+                int hour = int.parse(eveningTime.substring(0, 2));
+                int minute = int.parse(eveningTime.substring(3, 5));
+                DateTime data =
+                    DateTime(date!.year, date!.month, date!.day, hour, minute);
+                dataToReturn = data;
+              }))
         ]),
       );
     }
