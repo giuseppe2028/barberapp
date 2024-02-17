@@ -1,3 +1,5 @@
+import 'package:barberapp/View/RegistrationPage.dart';
+import 'package:barberapp/Widget/TextFieldPersonal.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -11,12 +13,21 @@ class LoginPage extends StatelessWidget {
         children: [
           const Text("Benvenuto in Barber App"),
           const Text("Login"),
-          const TextField(),
-          const TextField(),
+          TextFieldPersonal(label: "Email"),
+          TextFieldPersonal(label: "Password"),
           Row(
             children: [
               Text("Non ancora registrato?"),
-              TextButton(onPressed: () {}, child: Text("SingUp")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RegistrationPage(),
+                      ),
+                    );
+                  },
+                  child: Text("SingUp")),
             ],
           ),
           ElevatedButton(onPressed: () {}, child: const Text("Login"))
