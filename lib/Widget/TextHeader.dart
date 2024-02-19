@@ -7,6 +7,7 @@ class TextHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
+      textAlign: TextAlign.start,
       "$testo",
       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
     );
