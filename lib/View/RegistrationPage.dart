@@ -8,17 +8,25 @@ class RegistrationPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Barber App"),
       ),
-      body: Column(
-        children: [
-          TextFieldPersonal(
-            label: "Nome",
+      body:
+          LayoutBuilder(builder: (BuildContext context, BoxConstraints sizes) {
+        return Center(
+          child: SizedBox(
+            width: sizes.maxWidth - 50,
+            child: Column(
+              children: [
+                TextFieldPersonal(
+                  label: "Nome",
+                ),
+                TextFieldPersonal(label: "Cognome"),
+                TextFieldPersonal(label: "Email"),
+                TextFieldPersonal(label: "Password"),
+                ElevatedButton(onPressed: () {}, child: Text("Registrati"))
+              ],
+            ),
           ),
-          TextFieldPersonal(label: "Cognome"),
-          TextFieldPersonal(label: "Email"),
-          TextFieldPersonal(label: "Password"),
-          ElevatedButton(onPressed: () {}, child: Text("Registrati"))
-        ],
-      ),
+        );
+      }),
     );
   }
 }
