@@ -1,3 +1,9 @@
+import 'dart:convert';
+
+List<ReservationAviable> allReservationAviableFromJson(String str) =>
+    List<ReservationAviable>.from(
+        json.decode(str).map((x) => ReservationAviable.fromJson(x)));
+
 class Id {
   int? hour;
   int? minute;

@@ -21,7 +21,7 @@ class DialogWidget extends StatelessWidget {
                 finalData = value;
                 //creo un provider di tipo colore, e gli dico di cambiare colore se la soglia di prenotazioni in quella data supera 3
                 final vari = HomePageViewModel();
-                HomePageViewModel().verifyAvailability(DateTime.now());
+                HomePageViewModel().verifyAvailability(value);
               },
               selectableDayPredicate: (DateTime val) =>
                   val.weekday == 6 || val.weekday == 7 ? false : true,

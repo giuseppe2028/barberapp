@@ -72,18 +72,24 @@ class HomePageViewModel extends ChangeNotifier {
     }
   }
 
-  Future<bool> verifyAvailability(DateTime dateToCheck) async {
+  Future<List<ReservationAviable>?> verifyAvailability(
+      DateTime dateToCheck) async {
+    String dateFormatted =
+        "${dateToCheck.year}-${dateToCheck.month}-${dateToCheck.day}";
+    print(dateFormatted);
     Map<String, String> requestHeader = {'Content-Type': 'application/json'};
     var response = await client.get(
-        Uri.parse(Config.pathReservationAviable + "2024-02-10"),
+        Uri.parse(Config.pathReservationAviable + dateFormatted),
         headers: requestHeader);
     if (response.statusCode == 200) {
-      final List result = jsonDecode(response.body);
-      var variabile = ReservationAviable.fromJson(result.first).count;
-      print("la variabile è: $variabile");
-      if (result.isNotEmpty) return true;
+      List<ReservationAviable> result =
+          allReservationAviableFromJson(response.body);
+      for (int i = 0; i < result.length; i++)
+        print(
+            "l'elemento: $i: ${result.elementAt(i).id?.hour}:${result.elementAt(i).id?.minute} -> ${result.elementAt(i).count}");
+      if (result.isNotEmpty) return result;
     } else
-      return false;
-    return false;
+      return null;
+    return null;
   }
 }
