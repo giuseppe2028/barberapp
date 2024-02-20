@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:barberapp/Model/ReservationAviableModel.dart';
 import 'package:barberapp/helpers/Confing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as https;
@@ -71,9 +72,18 @@ class HomePageViewModel extends ChangeNotifier {
     }
   }
 
-  Future<bool> verifyAvailability(DateTime dateToCheck) {
+  Future<bool> verifyAvailability(DateTime dateToCheck) async {
     Map<String, String> requestHeader = {'Content-Type': 'application/json'};
-    var response = await client.get(Uri.parse(Config.pathPastReservation),
+    var response = await client.get(
+        Uri.parse(Config.pathReservationAviable + "2024-02-10"),
         headers: requestHeader);
+    if (response.statusCode == 200) {
+      final List result = jsonDecode(response.body);
+      var variabile = ReservationAviable.fromJson(result.first).count;
+      print("la variabile è: $variabile");
+      if (result.isNotEmpty) return true;
+    } else
+      return false;
+    return false;
   }
 }

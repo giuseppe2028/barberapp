@@ -1,3 +1,4 @@
+import 'package:barberapp/ViewModel/Home_Page_ViewModel.dart';
 import 'package:flutter/material.dart';
 
 import 'CustomDatePicker.dart';
@@ -19,6 +20,8 @@ class DialogWidget extends StatelessWidget {
               onDateChanged: (DateTime value) {
                 finalData = value;
                 //creo un provider di tipo colore, e gli dico di cambiare colore se la soglia di prenotazioni in quella data supera 3
+                final vari = HomePageViewModel();
+                HomePageViewModel().verifyAvailability(DateTime.now());
               },
               selectableDayPredicate: (DateTime val) =>
                   val.weekday == 6 || val.weekday == 7 ? false : true,
