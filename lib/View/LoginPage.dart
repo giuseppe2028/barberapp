@@ -1,10 +1,16 @@
+import 'package:barberapp/View/HomePage.dart';
 import 'package:barberapp/View/RegistrationPage.dart';
 import 'package:barberapp/Widget/TextFieldPersonal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginPage extends StatelessWidget {
+import '../ViewModel/LoginPageViewModel.dart';
+
+class LoginPage extends ConsumerWidget {
+  final mailController = TextEditingController();
+  final passwordController = TextEditingController();
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Barber App"),
@@ -18,8 +24,14 @@ class LoginPage extends StatelessWidget {
                 children: [
                   const Text("Benvenuto in Barber App"),
                   const Text("Login"),
-                  TextFieldPersonal(label: "Email"),
-                  TextFieldPersonal(label: "Password"),
+                  TextFieldPersonal(
+                    label: "Email",
+                    controller: mailController,
+                  ),
+                  TextFieldPersonal(
+                    label: "Password",
+                    controller: passwordController,
+                  ),
                   Row(
                     children: [
                       Text("Non ancora registrato?"),
@@ -35,12 +47,52 @@ class LoginPage extends StatelessWidget {
                           child: Text("SingUp")),
                     ],
                   ),
-                  ElevatedButton(onPressed: () {}, child: const Text("Login"))
+                  ElevatedButton(
+                      onPressed: () {
+                        final data = ref.watch(loadingViewProvider).getUser(
+                            mailController.text, passwordController.text);
+                        data.then((value) => {
+                              value == null
+                                  ? showDialogWindow(context)
+                                  : Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HomePage(),
+                                      ),
+                                    )
+                            });
+                      },
+                      child: const Text("Login"))
                 ],
               ),
             ),
           );
         },
+      ),
+    );
+  }
+
+  Future showDialogWindow(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text('Mail or password incorrect. Please try again'),
+              const SizedBox(height: 30),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Close'),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -15,12 +15,10 @@ class RegistrationPage extends StatelessWidget {
             width: sizes.maxWidth - 50,
             child: Column(
               children: [
-                TextFieldPersonal(
-                  label: "Nome",
-                ),
-                TextFieldPersonal(label: "Cognome"),
-                TextFieldPersonal(label: "Email"),
-                TextFieldPersonal(label: "Password"),
+                TextFieldPersonal(label: "Nome", controller: null),
+                TextFieldPersonal(label: "Cognome", controller: null),
+                TextFieldPersonal(label: "Email", controller: null),
+                TextFieldPersonal(label: "Password", controller: null),
                 ElevatedButton(onPressed: () {}, child: Text("Registrati"))
               ],
             ),
