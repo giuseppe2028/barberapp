@@ -18,6 +18,7 @@ class DialogWidget extends StatelessWidget {
               lastDate: DateTime(DateTime.now().year + 1),
               onDateChanged: (DateTime value) {
                 finalData = value;
+                //creo un provider di tipo colore, e gli dico di cambiare colore se la soglia di prenotazioni in quella data supera 3
               },
               selectableDayPredicate: (DateTime val) =>
                   val.weekday == 6 || val.weekday == 7 ? false : true,

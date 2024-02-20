@@ -71,5 +71,9 @@ class HomePageViewModel extends ChangeNotifier {
     }
   }
 
-  void updateReservation() async {}
+  Future<bool> verifyAvailability(DateTime dateToCheck) {
+    Map<String, String> requestHeader = {'Content-Type': 'application/json'};
+    var response = await client.get(Uri.parse(Config.pathPastReservation),
+        headers: requestHeader);
+  }
 }
