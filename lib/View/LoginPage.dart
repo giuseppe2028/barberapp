@@ -1,3 +1,4 @@
+import 'package:barberapp/Navigation/Navigator.dart';
 import 'package:barberapp/View/HomePage.dart';
 import 'package:barberapp/View/RegistrationPage.dart';
 import 'package:barberapp/Widget/TextFieldPersonal.dart';
@@ -37,12 +38,7 @@ class LoginPage extends ConsumerWidget {
                       Text("Non ancora registrato?"),
                       TextButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => RegistrationPage(),
-                              ),
-                            );
+                            NavigatorService.goTo(RegistrationPage(), context);
                           },
                           child: Text("SingUp")),
                     ],
@@ -54,12 +50,7 @@ class LoginPage extends ConsumerWidget {
                         data.then((value) => {
                               value == null
                                   ? showDialogWindow(context)
-                                  : Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => HomePage(),
-                                      ),
-                                    )
+                                  : NavigatorService.goTo(HomePage(), context)
                             });
                       },
                       child: const Text("Login"))
