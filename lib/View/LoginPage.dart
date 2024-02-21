@@ -56,7 +56,7 @@ class LoginPage extends ConsumerWidget {
                                 {
                                   ref.read(userProvider.notifier).state =
                                       UserEntity(
-                                          idUtente: 11,
+                                          idUtente: value.id,
                                           name: value.name,
                                           surname: value.surname,
                                           mail: value.mail,
