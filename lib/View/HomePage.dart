@@ -107,9 +107,10 @@ class DisplayCardWidget extends ConsumerWidget {
   }
 }
 
-class _HeaderProfile extends StatelessWidget {
+class _HeaderProfile extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var data = ref.read(userProvider);
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -120,7 +121,7 @@ class _HeaderProfile extends StatelessWidget {
             children: [
               TextHeader(testo: "Benvenuto,"),
               //TODO mettere il nome dell'utente
-              TextHeader(testo: "Giuseppe"),
+              TextHeader(testo: data!.name),
             ],
           ),
         ),

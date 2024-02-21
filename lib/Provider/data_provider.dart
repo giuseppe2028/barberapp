@@ -1,4 +1,5 @@
 import 'package:barberapp/Model/Reservation.dart';
+import 'package:barberapp/Model/UserEntity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../Model/ReservationAviableModel.dart';
@@ -21,3 +22,5 @@ final reservationAviableProvider =
       .watch(ReservationProvider)
       .verifyAvailability(ref.watch(dateTimeProvider));
 });
+
+final userProvider = StateProvider<UserEntity?>((ref) => null);

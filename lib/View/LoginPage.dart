@@ -1,3 +1,4 @@
+import 'package:barberapp/Model/UserEntity.dart';
 import 'package:barberapp/Navigation/Navigator.dart';
 import 'package:barberapp/View/HomePage.dart';
 import 'package:barberapp/View/RegistrationPage.dart';
@@ -5,6 +6,7 @@ import 'package:barberapp/Widget/TextFieldPersonal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../Provider/data_provider.dart';
 import '../ViewModel/LoginPageViewModel.dart';
 
 class LoginPage extends ConsumerWidget {
@@ -48,9 +50,19 @@ class LoginPage extends ConsumerWidget {
                         final data = ref.watch(loadingViewProvider).getUser(
                             mailController.text, passwordController.text);
                         data.then((value) => {
-                              value == null
-                                  ? showDialogWindow(context)
-                                  : NavigatorService.goTo(HomePage(), context)
+                              if (value == null)
+                                {showDialogWindow(context)}
+                              else
+                                {
+                                  ref.read(userProvider.notifier).state =
+                                      UserEntity(
+                                          idUtente: 11,
+                                          name: value.name,
+                                          surname: value.surname,
+                                          mail: value.mail,
+                                          password: value.password),
+                                  NavigatorService.goTo(HomePage(), context)
+                                }
                             });
                       },
                       child: const Text("Login"))
