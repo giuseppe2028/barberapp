@@ -1,4 +1,4 @@
-import 'package:barberapp/View/HomePage.dart';
+import 'package:barberapp/View/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: HomePage());
+        home: LoginPage());
   }
 }
 
