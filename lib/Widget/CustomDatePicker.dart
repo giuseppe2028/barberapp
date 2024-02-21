@@ -1,6 +1,10 @@
+import 'package:barberapp/Model/ReservationAviableModel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TimePickerCustom extends StatelessWidget {
+import '../Provider/data_provider.dart';
+
+class TimePickerCustom extends ConsumerWidget {
   DateTime? dataToReturn;
   DateTime? date;
   VoidCallback? onPressed;
@@ -30,26 +34,32 @@ class TimePickerCustom extends StatelessWidget {
   TimePickerCustom({required this.date, this.onPressed});
 
   @override
-  Widget build(BuildContext context) {
-    return DataTable(
-        dividerThickness: 0,
-        horizontalMargin: 5,
-        columnSpacing: 20,
-        columns: const [
-          DataColumn(
-            label: Text('Mattina'),
-          ),
-          DataColumn(
-            label: Text('Pomeriggio'),
-          ),
-          DataColumn(
-            label: Text('Sera'),
-          ),
-        ],
-        rows: _buildRows());
+  Widget build(BuildContext context, WidgetRef ref) {
+    var data = ref.watch(reservationAviableProvider);
+    return data.when(
+        data: (data) {
+          return DataTable(
+              dividerThickness: 0,
+              horizontalMargin: 5,
+              columnSpacing: 20,
+              columns: const [
+                DataColumn(
+                  label: Text('Mattina'),
+                ),
+                DataColumn(
+                  label: Text('Pomeriggio'),
+                ),
+                DataColumn(
+                  label: Text('Sera'),
+                ),
+              ],
+              rows: _buildRows(data));
+        },
+        error: (err, s) => Text(err.toString()),
+        loading: () => CircularProgressIndicator());
   }
 
-  List<DataRow> _buildRows() {
+  List<DataRow> _buildRows(List<ReservationAviable>? data) {
     List<DataRow> rows = [];
     int maxLength = _calculateMaxLength();
 
@@ -61,41 +71,8 @@ class TimePickerCustom extends StatelessWidget {
           : '';
       String eveningTime =
           i < officeHours['Sera']!.length ? officeHours['Sera']![i] : '';
-
-      rows.add(
-        DataRow(cells: [
-          DataCell(InkWell(
-              child: Text(morningTime),
-              onTap: () {
-                int hour = int.parse(morningTime.substring(0, 2));
-                int minute = int.parse(morningTime.substring(3, 5));
-                DateTime data =
-                    DateTime(date!.year, date!.month, date!.day, hour, minute);
-                dataToReturn = data;
-                onPressed!();
-              })),
-          DataCell(InkWell(
-              child: Text(afternoonTime),
-              onTap: () {
-                int hour = int.parse(afternoonTime.substring(0, 2));
-                int minute = int.parse(afternoonTime.substring(3, 5));
-                DateTime data =
-                    DateTime(date!.year, date!.month, date!.day, hour, minute);
-                dataToReturn = data;
-                onPressed!();
-              })),
-          DataCell(InkWell(
-              child: Text(eveningTime),
-              onTap: () {
-                int hour = int.parse(eveningTime.substring(0, 2));
-                int minute = int.parse(eveningTime.substring(3, 5));
-                DateTime data =
-                    DateTime(date!.year, date!.month, date!.day, hour, minute);
-                dataToReturn = data;
-                onPressed!();
-              }))
-        ]),
-      );
+      buildRowSpecific(
+          Colors.black, morningTime, afternoonTime, eveningTime, rows, data);
     }
 
     return rows;
@@ -111,5 +88,61 @@ class TimePickerCustom extends StatelessWidget {
     });
 
     return maxLength;
+  }
+
+  void buildRowSpecific(Color color, String morningTime, String afternoonTime,
+      String eveningTime, List<DataRow> rows, List<ReservationAviable>? data) {
+    final filteredData = data
+        ?.where((element) => element.count != null && element.count! > 3)
+        .toList();
+    if (filteredData != null) {
+      for (int i = 0; i < filteredData.length; i++) {
+        if (filteredData[i].count != null && filteredData[i].count! > 3) {
+          color = Colors.red;
+        } else {
+          color = Colors.black;
+        }
+      }
+    } else {
+      color = Colors.black;
+    }
+
+    rows.add(
+      DataRow(cells: [
+        DataCell(InkWell(
+            child: Text(
+              morningTime,
+              style: TextStyle(color: color),
+            ),
+            onTap: () {
+              int hour = int.parse(morningTime.substring(0, 2));
+              int minute = int.parse(morningTime.substring(3, 5));
+              DateTime data =
+                  DateTime(date!.year, date!.month, date!.day, hour, minute);
+              dataToReturn = data;
+              onPressed!();
+            })),
+        DataCell(InkWell(
+            child: Text(afternoonTime),
+            onTap: () {
+              int hour = int.parse(afternoonTime.substring(0, 2));
+              int minute = int.parse(afternoonTime.substring(3, 5));
+              DateTime data =
+                  DateTime(date!.year, date!.month, date!.day, hour, minute);
+              dataToReturn = data;
+              onPressed!();
+            })),
+        DataCell(InkWell(
+            child: Text(eveningTime),
+            onTap: () {
+              int hour = int.parse(eveningTime.substring(0, 2));
+              int minute = int.parse(eveningTime.substring(3, 5));
+              DateTime data =
+                  DateTime(date!.year, date!.month, date!.day, hour, minute);
+              dataToReturn = data;
+              onPressed!();
+            }))
+      ]),
+    );
   }
 }

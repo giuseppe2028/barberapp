@@ -34,10 +34,10 @@ class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(items: const [
-      BottomNavigationBarItem(icon: Icon(Icons.photo), label: "foto"),
+      BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
       BottomNavigationBarItem(
           icon: Icon(Icons.add), label: "Aggiungi appuntamento"),
-      BottomNavigationBarItem(icon: Icon(Icons.mail), label: "mail"),
+      BottomNavigationBarItem(icon: Icon(Icons.mail), label: "Mail"),
     ]);
   }
 }
