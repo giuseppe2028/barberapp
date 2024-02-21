@@ -25,47 +25,79 @@ class LoginPage extends ConsumerWidget {
               width: sizes.maxWidth - 50,
               child: Column(
                 children: [
-                  const Text("Benvenuto in Barber App"),
-                  const Text("Login"),
+                  const Text(
+                    "Benvenuto in Barber App",
+                    style: TextStyle(fontSize: 25, fontFamily: 'Lato'),
+                  ),
+                  const Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Login",
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontFamily: 'Lato',
+                          )),
+                    ),
+                  ),
                   TextFieldPersonal(
                     label: "Email",
                     controller: mailController,
                   ),
-                  TextFieldPersonal(
-                    label: "Password",
-                    controller: passwordController,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: TextFieldPersonal(
+                      label: "Password",
+                      controller: passwordController,
+                    ),
                   ),
                   Row(
                     children: [
-                      Text("Non ancora registrato?"),
+                      Text(
+                        "Non ancora registrato?",
+                        style: TextStyle(
+                            fontFamily: 'Lato', color: Colors.black54),
+                      ),
                       TextButton(
                           onPressed: () {
                             NavigatorService.goTo(RegistrationPage(), context);
                           },
-                          child: Text("SingUp")),
+                          child: Text(
+                            "SingUp",
+                            style: TextStyle(color: Colors.brown),
+                          )),
                     ],
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        final data = ref.watch(loadingViewProvider).getUser(
-                            mailController.text, passwordController.text);
-                        data.then((value) => {
-                              if (value == null)
-                                {showDialogWindow(context)}
-                              else
-                                {
-                                  ref.read(userProvider.notifier).state =
-                                      UserEntity(
-                                          idUtente: value.id,
-                                          name: value.name,
-                                          surname: value.surname,
-                                          mail: value.mail,
-                                          password: value.password),
-                                  NavigatorService.goTo(HomePage(), context)
-                                }
-                            });
-                      },
-                      child: const Text("Login"))
+                  Container(
+                    width: sizes.maxWidth - 150,
+                    child: ElevatedButton(
+                        style: const ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(
+                                Color.fromARGB(100, 212, 144, 93))),
+                        onPressed: () {
+                          final data = ref.watch(loadingViewProvider).getUser(
+                              mailController.text, passwordController.text);
+                          data.then((value) => {
+                                if (value == null)
+                                  {showDialogWindow(context)}
+                                else
+                                  {
+                                    ref.read(userProvider.notifier).state =
+                                        UserEntity(
+                                            idUtente: value.id,
+                                            name: value.name,
+                                            surname: value.surname,
+                                            mail: value.mail,
+                                            password: value.password),
+                                    NavigatorService.goTo(HomePage(), context)
+                                  }
+                              });
+                        },
+                        child: const Text(
+                          "Login",
+                          style: TextStyle(color: Colors.white),
+                        )),
+                  )
                 ],
               ),
             ),

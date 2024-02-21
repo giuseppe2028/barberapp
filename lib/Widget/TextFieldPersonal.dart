@@ -9,7 +9,9 @@ class TextFieldPersonal extends StatelessWidget {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
-        border: OutlineInputBorder(),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
         labelText: label,
       ),
     );

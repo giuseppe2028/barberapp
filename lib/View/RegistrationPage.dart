@@ -15,11 +15,30 @@ class RegistrationPage extends StatelessWidget {
             width: sizes.maxWidth - 50,
             child: Column(
               children: [
-                TextFieldPersonal(label: "Nome", controller: null),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: TextFieldPersonal(label: "Nome", controller: null),
+                ),
                 TextFieldPersonal(label: "Cognome", controller: null),
-                TextFieldPersonal(label: "Email", controller: null),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: TextFieldPersonal(label: "Email", controller: null),
+                ),
                 TextFieldPersonal(label: "Password", controller: null),
-                ElevatedButton(onPressed: () {}, child: Text("Registrati"))
+                Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                Container(
+                  width: sizes.maxWidth - 150,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text(
+                      "Registrati",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: const ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(
+                            Color.fromARGB(100, 212, 144, 93))),
+                  ),
+                )
               ],
             ),
           ),
