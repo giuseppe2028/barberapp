@@ -1,3 +1,4 @@
+import 'package:barberapp/Model/UserEntity.dart';
 import 'package:barberapp/Navigation/Navigator.dart';
 import 'package:barberapp/View/HomePage.dart';
 import 'package:barberapp/ViewModel/RegistrationViewModel.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../Model/UserModel.dart';
+import '../Provider/data_provider.dart';
 
 class RegistrationPage extends ConsumerWidget {
   final mailController = TextEditingController();
@@ -51,14 +53,26 @@ class RegistrationPage extends ConsumerWidget {
                               surname: surnameController.text,
                               password: passwordController.text,
                               mail: mailController.text));
-                      data.then(
-                        (value) => value
-                            ? NavigatorService.goTo(HomePage(), context)
-                            : showDialog(
-                                context: context,
-                                builder: (BuildContext context) => DialogWindow(
-                                    text: "Registrazione non riuscita")),
-                      );
+                      data.then((value) => {
+                            print("value è: $value"),
+                            value != null
+                                ? {
+                                    NavigatorService.goTo(HomePage(), context),
+                                    ref.read(userProvider.notifier).state =
+                                        UserEntity(
+                                            idUtente: value,
+                                            name: nameController.text,
+                                            surname: surnameController.text,
+                                            password: passwordController.text,
+                                            mail: mailController.text)
+                                  }
+                                : showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        DialogWindow(
+                                            text:
+                                                "Registrazione non riuscita")),
+                          });
                     },
                     style: const ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(

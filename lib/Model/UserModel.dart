@@ -3,6 +3,7 @@ class UserModel {
   String surname;
   String mail;
   String password;
+
   UserModel(
       {required this.name,
       required this.surname,

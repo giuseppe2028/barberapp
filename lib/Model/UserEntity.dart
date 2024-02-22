@@ -1,6 +1,6 @@
 class UserEntity {
   String name, surname, mail, password;
-  int idUtente;
+  String idUtente;
 
   UserEntity(
       {required this.name,
@@ -9,7 +9,7 @@ class UserEntity {
       required this.password,
       required this.mail});
   factory UserEntity.fromJson(Map<String, dynamic> json) => UserEntity(
-      idUtente: json["idUtente"],
+      idUtente: json["_id"],
       name: json["name"],
       surname: json["surname"],
       mail: json["mail"],

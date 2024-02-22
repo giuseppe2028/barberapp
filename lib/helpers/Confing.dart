@@ -7,5 +7,4 @@ class Config {
   static String pathUsers = '$baseURL/api/User/';
   static String pathReservationAviable =
       '$baseURL/api/reservation/ReservationAvaible/';
-  static String pathNewUser = "$baseURL/api/user";
 }

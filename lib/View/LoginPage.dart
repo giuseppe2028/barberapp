@@ -89,7 +89,9 @@ class LoginPage extends ConsumerWidget {
                                             surname: value.surname,
                                             mail: value.mail,
                                             password: value.password),
-                                    NavigatorService.goTo(HomePage(), context)
+                                    NavigatorService.goTo(HomePage(), context),
+                                    print(
+                                        "User: ${value.idUtente},${value.name},${value.surname} ")
                                   }
                               });
                         },
